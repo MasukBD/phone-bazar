@@ -1,3 +1,4 @@
+// load all data from server 
 const loadData = async (searchText, datalimit) => {
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
     const res = await fetch(url);
@@ -5,12 +6,14 @@ const loadData = async (searchText, datalimit) => {
     displayData(data.data, datalimit);
 }
 
+// display data function 
 const displayData = (phones, datalimit) => {
     // console.log(phones)
     const phoneContainer = document.getElementById('phone-container');
     phoneContainer.textContent = '';
     const showAll = document.getElementById('show-all');
     if (datalimit && phones.length > 12) {
+        // show first 12 phone 
         phones = phones.slice(0, 12);
         showAll.classList.remove('d-none');
 
@@ -19,6 +22,7 @@ const displayData = (phones, datalimit) => {
     else {
         showAll.classList.add('d-none');
     }
+    // show error message 
     const warning = document.getElementById('warning-Message');
     if (phones.length === 0) {
         warning.classList.remove('d-none');
@@ -37,7 +41,7 @@ const displayData = (phones, datalimit) => {
                             <h5 class="card-title">${phone.phone_name}</h5>
                             <p class="card-text">This is a longer card with supporting text below as a natural lead-in
                                 to additional content. This content is a little bit longer.</p>
-                            <button class="btn btn-primary" onclick="loadPhoneDetails('${phone.slug}')">Show Details</button>
+                            <button id="show-phone-details" data-bs-toggle="modal" data-bs-target="#phone-Modal" class="btn btn-primary" onclick="loadPhoneDetails('${phone.slug}')">Show Details</button>
                         </div>
                     </div>
 
@@ -47,6 +51,7 @@ const displayData = (phones, datalimit) => {
     toggleSpinner(false);
 }
 
+// show toggle spinner for loading data 
 const toggleSpinner = isloading => {
     const spinner = document.getElementById('toggle-spiner');
     if (isloading === true) {
@@ -57,26 +62,31 @@ const toggleSpinner = isloading => {
     }
 }
 
-document.getElementById('search-btn').addEventListener('click', function () {
+// common function for search by input text 
+const processData = datalimit => {
     toggleSpinner(true);
     const inputValue = document.getElementById('search-input').value;
-    loadData(inputValue, true);
+    loadData(inputValue, datalimit);
+}
+// search by search button 
+document.getElementById('search-btn').addEventListener('click', function () {
+    processData(true);
     // document.getElementById('search-input').value = '';
 })
+
+// search by enter key option 
 document.getElementById('search-input').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
-        toggleSpinner(true);
-        const inputValue = document.getElementById('search-input').value;
-        loadData(inputValue, true);
+        processData(true);
     }
 });
 
+// show all button event handler 
 document.getElementById('show-btn').addEventListener('click', function () {
-    toggleSpinner(true);
-    const inputValue = document.getElementById('search-input').value;
-    loadData(inputValue);
+    processData();
 })
 
+// load single phone details by specific id 
 const loadPhoneDetails = async id => {
     const url = `https://openapi.programming-hero.com/api/phone/${id}`;
     const res = await fetch(url);
@@ -85,5 +95,14 @@ const loadPhoneDetails = async id => {
 }
 const displayPhoneDetails = details => {
     console.log(details);
+    const phoneName = document.getElementById('phone-detailsModalLabel');
+    phoneName.innerText = details.name;
+    const phoneDetails = document.getElementById('modalBody');
+    phoneDetails.innerHTML = `
+    <h2>Brand: ${details.brand}</h2>
+    <img class="img-fluid" src= "${details.image}">
+    <h6 class="my-2">Release Date: ${details.releaseDate}</h6>
+    `;
+
 }
 
