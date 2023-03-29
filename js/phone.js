@@ -100,8 +100,18 @@ const displayPhoneDetails = details => {
     const phoneDetails = document.getElementById('modalBody');
     phoneDetails.innerHTML = `
     <h2>Brand: ${details.brand}</h2>
-    <img class="img-fluid" src= "${details.image}">
-    <h6 class="my-2">Release Date: ${details.releaseDate}</h6>
+    <img class="w-100" src= "${details.image}">
+    <h6 class="my-3">Release Date: ${details.releaseDate}</h6>
+    <p><b>Storage:</b> ${details.mainFeatures.storage}</p>
+    <p><b>Display Size:</b> ${details.mainFeatures.displaySize}</p>
+    <p><b>Memory:</b> ${details.mainFeatures.memory}</p>
+    <p><b>Sensors:</b> ${details.mainFeatures.sensors[0]} , ${details.mainFeatures.sensors[1]} , ${details.mainFeatures.sensors[2]}</p>
+    <p><b>Chip Set: </b> ${details.mainFeatures.chipSet}</p>
+    <p><b>WLan: </b> ${details?.others.WLAN}</p>
+    <p><b>Blutooth: </b> ${details?.others.Bluetooth}</p>
+    <p><b>GPS: </b> ${details.others.GPS}</p>
+    <p><b>Radio: </b> ${details.others.Radio}</p>
+    <p><b>USB: </b> ${details.others.USB}</p>
     `;
 
 }
