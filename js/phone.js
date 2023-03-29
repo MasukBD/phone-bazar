@@ -101,11 +101,11 @@ const displayPhoneDetails = details => {
     phoneDetails.innerHTML = `
     <h2>Brand: ${details.brand}</h2>
     <img class="w-100" src= "${details.image}">
-    <h6 class="my-3">Release Date: ${details.releaseDate}</h6>
-    <p><b>Storage:</b> ${details.mainFeatures.storage}</p>
+    <h6 class="my-3">Release Date: ${details.releaseDate ? details.releaseDate : 'No Release date found'}</h6>
+    <p><b>Storage:</b> ${details.mainFeatures ? details.mainFeatures.storage : 'No details'}</p>
     <p><b>Display Size:</b> ${details.mainFeatures.displaySize}</p>
     <p><b>Memory:</b> ${details.mainFeatures.memory}</p>
-    <p><b>Sensors:</b> ${details.mainFeatures.sensors[0]} , ${details.mainFeatures.sensors[1]} , ${details.mainFeatures.sensors[2]}</p>
+    <p><b>Sensors:</b> ${details.mainFeatures.sensors[0]} , ${details.mainFeatures.sensors[1]} , ${details.mainFeatures.sensors ? details.mainFeatures.sensors[2] : 'No details'}</p>
     <p><b>Chip Set: </b> ${details.mainFeatures.chipSet}</p>
     <p><b>WLan: </b> ${details?.others.WLAN}</p>
     <p><b>Blutooth: </b> ${details?.others.Bluetooth}</p>
